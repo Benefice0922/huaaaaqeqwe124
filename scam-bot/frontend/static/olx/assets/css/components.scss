@@ -1,0 +1,246 @@
+/*-----------------------------*/
+
+// Цвета
+
+$black: #262626;
+$white: #FEFEFE;
+$shade1: #767676;
+$shade2: #8D9B9C;
+$shade3: #CDCDCD;
+$primary: #002F34;
+$stroke: 1px solid #D9D7DA;
+$block: #FFFFFF;
+$green: #52A74E;
+
+/*-----------------------------*/
+
+// Тень
+
+$shadow: 0px 4px 25px rgba(84, 84, 84, 0.05);
+$hover_btn: 0px 4px 25px rgba(1, 86, 156, 0.1);
+
+/*-----------------------------*/
+
+// Текстовые стили
+
+@mixin h1 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 700;
+    font-size: 2.3em;
+    color: $black;
+}
+
+@mixin h2 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 600;
+    font-size: 2em;
+    color: $black;
+}
+
+@mixin h3 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 600;
+    font-size: 1.8em;
+    color: $black;
+}
+
+@mixin h4 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    font-size: 1.3em;
+    color: $shade1;
+}
+
+@mixin p_header {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    font-size: 0.9em;
+}
+
+@mixin p1 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 500;
+    font-size: 1.05em;
+}
+
+@mixin p2 {
+    font-family: 'Ubuntu', sans-serif;
+    font-weight: 400;
+    font-size: .95em;
+}
+
+// Компоненты
+
+
+// Поле ввода
+
+@mixin input_field {
+    display: flex;
+    flex-direction: column;
+
+    .field_label {
+        margin-bottom: 0.5em;
+        @include p2;
+        color: $shade2;
+    }
+
+    .field_input {
+        border: 1px solid #F0F0F0;
+        line-height: 1.5em;
+        padding: .5em;
+        @include p1;
+        color: $black;
+        border-radius: 6px;
+    }
+
+    &:hover {
+        .field_input {
+            border: 1px solid $primary;
+            transition: .2s ease-in-out;
+        }
+
+        .field_label {
+            color: $shade1;
+            transition: .2s ease-in-out;
+        }
+    }
+}
+
+// Поле ввода Saldo
+
+@mixin input_field_saldo {
+    display: flex;
+    flex-direction: column;
+    
+    .field_label {
+        margin-bottom: 0.5em;
+        @include p2;
+        color: $shade2;
+    }
+
+    .field {
+        display: flex; 
+        border: 1px solid #F0F0F0;
+        line-height: 2.5em;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 6px;
+        padding: .5em;
+    
+        .field_input {
+            line-height: 2.5em;
+            @include p1;
+            color: $black;
+        }
+
+        .currency {
+            background: #E9E9E9;
+            padding: 0 1em 0 1em;
+            border-radius: 2px;
+            margin-right: .4em;
+            @include p2;
+        }
+    }
+
+    &:hover {
+        .field {
+            border: 1px solid $primary;
+            transition: .2s ease-in-out;
+
+            .currency {
+                background: $primary;
+                color: $white;
+                transition: .2s ease-in-out;
+            }
+        }
+
+        .field_label {
+            color: $shade1;
+            transition: .2s ease-in-out;
+        }
+    }
+
+    &:focus {
+        .field {
+            border-bottom: 1px solid $primary;
+            transition: .2s ease-in-out;
+
+            .currency {
+                background: $primary;
+                color: $white;
+                transition: .2s ease-in-out;
+            }
+        }
+
+        .field_label {
+            color: $shade1;
+            transition: .2s ease-in-out;
+        }
+    }
+}
+
+
+// Кнопка
+
+@mixin button {
+    background: $primary;
+    color: $white;
+    @include p1;
+    padding: 1.25em 2em 1.25em 2em;
+    transition: .2s ease-in;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 8px;
+    text-transform: uppercase;
+
+    &:hover {
+        box-shadow: $hover_btn;
+        background: #003d44;
+    }
+}
+
+// Чат
+
+@mixin chat {
+    width: 3.8em;
+    height: 3.8em;
+    background: $primary;
+    z-index: 25000;
+    position: fixed;
+    border-radius: 100%;
+    box-shadow: $hover_btn;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    right: 3em;
+    bottom: 3em;
+    cursor: pointer;
+    transition: .2s ease-in;
+    border: 4px solid $primary;
+
+    &:hover {
+        background: #003d44;
+        border: 4px solid $primary;
+    }
+}
+
+// Поля карты 
+
+@mixin card_field {
+    display: flex;
+    flex-direction: column;
+
+    .card_label {
+        opacity: 0.25;
+        color: $white;
+        @include p2;
+        width: 11rem;
+    }
+
+    .card_field {
+        @include p1;
+        color: $white;
+        margin-top: .5em;
+        width: 11rem;
+    }
+}

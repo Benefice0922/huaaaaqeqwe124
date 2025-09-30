@@ -1,0 +1,882 @@
+* {padding: 0; margin: 0;}
+input {outline: none; border: none; background: none;}
+a {text-decoration: none;}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+@import 'components'; // Стили и компоненты 
+
+.chat {@include chat;} // Чат
+
+
+/*-----------------------------*/
+
+// Заголовок страницы
+
+.page_title {
+    @include h1;
+}
+
+/*-----------------------------*/
+
+// Тело
+
+body {
+    background-color: #f8f8f8;
+}
+
+.container_index {
+    padding: 0 10em 0 10em;
+    margin-top: 2.5em;
+    
+    @media screen and (max-width: 1024px) {
+        padding: 0 2em 0 2em; 
+    }
+
+    @media screen and (max-width: 1440px) {
+        padding: 0 5em 0 5em;
+    }
+}
+
+.payment_container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .security_payment {
+        display: flex;
+        margin-top: 1.25em;
+        justify-content: center;
+
+        .text {
+            margin-left: .5em;
+            @include p2;
+            color: $shade1;
+            text-align: center;
+        }
+    }
+
+    .secure_logos {
+        margin-top: 2em;
+        margin-bottom: 4em;
+    }
+}
+
+
+
+// Шапка 
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em 10em 1em 10em;
+    background: #002F34;
+
+    @media screen and (max-width: 1024px) {
+        padding: 1em 2em 0 2em; 
+    }
+
+    @media screen and (max-width: 1440px) {
+        padding: 1em 2em 0 2em;
+    }
+
+    .mobile_logotype {
+        display: none;
+    }
+
+    .left_side {
+        display: flex;
+        align-items: center;
+        
+        .icon_left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-left: 1em;
+            color: $shade2;
+
+            .icontext {
+                @include p2;
+                font-size: .8em;
+                margin-top: .2em;
+            }
+        }
+
+        .mail_icon {
+            margin-right: 1.5em;
+        }
+
+        .search_icon {
+            margin-right: 1.5em;
+            fill: $white;
+        }
+
+        .sign_in {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: .8em 1em;
+            transition: .2s ease;
+            border: 1px solid $primary;
+            cursor: pointer;
+
+            .sign_text {
+                @include p_header;
+                color: $white;
+                margin-left: .5em;
+            }
+
+            &:hover {
+                background: $white;
+                border: 1px solid $white;
+
+                .sign_text {
+                    color: $primary;;
+                }
+            }   
+        }
+
+        .second_btn {
+            border: none;
+            color: $white;
+            @include p2;
+            margin-right: 1.5em;
+        }
+    }
+}
+
+
+// Информация о товаре
+
+.product_information {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    margin-top: 2em;
+    background: $white;
+    box-shadow: $shadow;
+
+    .product_data {
+        margin-left: 2em;
+    }
+
+    .image_product {
+        width: 7.5em;
+        height: 7.5em;
+        border-radius: 7px;
+    }
+
+    .product_price {
+        @include h3;
+        color: $primary;
+    }
+
+    .product_name {
+        @include h4;
+        margin-top: 0.25em;
+    }
+}
+
+/*-----------------------------*/
+
+// Данные доставки
+
+.product_content {
+    display: flex;
+    margin-top: 1.5em;
+    align-items: flex-start;
+
+    .delivery_data {
+        display: flex;
+        flex-direction: column;
+
+        .delivery_type {
+            display: flex;
+            align-items: center;
+            padding: 1.5em 2em 1.5em 2em;
+            border-radius: 8px;
+            background: $white;
+            box-shadow: $shadow;
+
+            .delivery_icon {
+                width: 3.125em;
+                height: 3.125em;
+                background: $primary;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .delivery_description {
+                margin-left: 1.25em;
+
+                .type_title {
+                    @include p1;
+                    color: $black;
+                    margin-bottom: 0.5em;
+                }
+
+                .type_description {
+                    @include p2;
+                    color: $shade1;
+                }
+            }
+        }
+
+        .data_content {
+            display: flex;
+            padding: 1.5em 2em 1.5em 2em;
+            border-radius: 8px;
+            background: $white;
+            box-shadow: $shadow;
+            margin-top: 1em;
+
+            .delivery_address {
+
+                .field_component {
+                    @include input_field;
+                }
+
+                .destination_data {
+                    display: flex;
+                    flex-direction: row;
+
+                    &:last-child {
+                        margin-top: 2em;    
+                    }
+
+                    .field_component:last-child {
+                        margin-left: 2em;
+                    }
+                }
+
+            }
+        }
+
+        .oferta {
+            @include p2;
+            color: $shade3;
+            line-height: 160%;
+            margin-top: 1.5em;
+        }
+    }
+
+    // Блок оплаты
+
+    .payment_block {
+        display: flex;
+        padding: 1.5em 2em 1.5em 2em;
+        border-radius: 8px;
+        background: $white;
+        box-shadow: $shadow;
+        flex-direction: column;
+        margin-left: 1em;
+        width: 25em;
+
+        .price_amount {
+            @include h2;
+            color: $black;
+
+        }
+
+        .button_component {
+            @include button;
+            margin-top: 1.25em;
+        }
+
+        .line {
+            margin-top: 1.25em;
+            border: 1px solid $shade3;
+        }
+
+        .security_payment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.25em;
+
+            .text {
+                margin-left: .5em;
+                @include p2;
+                color: $shade1;
+            }
+        }
+
+        .safe_deal {
+            @include p2;
+            color: $shade3;
+            line-height: 160%;
+            margin-top: .75em;
+        }
+    }
+}
+
+
+/*-----------------------------*/
+
+// Стили оплаты
+
+.payment_content {
+    display: flex;
+    flex-direction: column;
+    background: $white;
+    box-shadow: $shadow;
+    border-radius: 8px;
+    margin-top: 2em;
+    padding: 2em 1.5em 2em 1.5em;
+
+    .card_wrapper {
+        background-image: url(../img/images/card_template.png);
+        display: flex;
+        flex-direction: column;
+        padding: 2em;
+        border-radius: 8px;
+
+        .card_number {
+            @include h4;
+            margin-top: 2em;
+            color: $white;
+            letter-spacing: 4;
+        }
+
+        .card_logotype {
+            width: 4em;
+        }
+
+        .name_duration {
+            margin-top: 1.8em;
+
+            .name_data {
+                display: flex;
+
+
+                .card-data_component {
+                    @include card_field;
+
+                    .duration_card {
+                        display: flex;
+                        width: 4em;
+                        align-items: center;
+                        justify-content: center;
+
+                        .slash {
+                            @include p1;
+                            margin: 0 .3em 0 .05em;
+                            margin-top: .5em;
+                            color: $white;
+                            opacity: .1;
+
+                        }
+                    }
+                }
+
+                .card-data_component:last-child {
+                    margin-left: 1em;
+                }
+            }
+        }
+    }
+
+    .form_card {
+        display: flex;
+        flex-direction: column;
+
+        .card_fields {
+
+            .row_1 {
+                display: flex;
+                margin-top: 2em;
+    
+                .field_component {
+                    @include input_field;
+                }
+    
+                .field_component:first-child {
+                    width: 18em;
+                }
+    
+                .field_component:last-child {
+                    margin-left: 1em;
+                    width: 8em;
+                }
+            }
+    
+            .row_2 {
+                margin-top: 2em;
+    
+                .field_component {
+                    @include input_field;
+                }
+            }
+    
+            .row_3 {
+                margin-top: 2em;
+                display: flex;
+    
+                .field_component {
+                    @include input_field;
+                    width: 13em;
+                }
+    
+                .field_component:last-child {
+                    margin-left: 1em;
+    
+                    label {
+                        opacity: 0;
+                    }
+                }            
+            }
+        }
+    
+        .button_component {
+            @include button;
+            margin-top: 3em;
+        }
+    }
+}
+
+
+
+/*-----------------------------*/
+
+// Модалка
+
+.modal_window {
+    .popup {
+        display: none;
+
+        &:before {
+            content: '';
+            background-color: rgba(19, 19, 19, 0.8);
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .popup_window {
+        display: none;
+        width: 24em;
+        background: $white;
+        z-index: 10000;
+        position: fixed;
+        top: 10em;
+        left: 50%;
+        border-radius: 8px; 
+        border: $stroke; 
+        margin-left: -14em; 
+        padding: 2em;
+        flex-direction: column;
+        
+        .popup_header {
+            display: flex;
+            align-items: center;
+
+            .modal_title {
+                @include p1;
+                margin-left: 1em;
+                color: $black;
+                line-height: 160%;
+            }
+        }
+
+        .modal_title_line {
+            border: 1px solid $shade3;
+            margin-top: 2em;
+        }
+
+        .popup_content {
+            margin-top: 2em;
+
+            .modal_text {
+                @include p2;
+                color: $shade1;
+                line-height: 160%;
+            }
+
+            .saldo_form {
+
+                .field_component_saldo {
+                    @include input_field_saldo;
+                    margin-top: 2em;
+                }
+    
+                .button_component {
+                    @include button;
+                    margin-top: 3em;
+                    width: 23em;
+                }
+            }
+        }
+    }
+}
+
+
+.code_wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 3em;
+
+    .security_payment {
+        display: flex;
+        align-items: center;
+        margin-top: 1.25em;
+
+        .text {
+            margin-left: .5em;
+            @include p2;
+            color: $shade1;
+        }
+    }
+
+    .secure_logos {
+        margin-top: 2em;
+        margin-bottom: 4em;
+    }
+
+    .code_container {
+        width: 24em;
+        background: $white;
+        box-shadow: $shadow;
+        z-index: 10000;
+        border-radius: 8px;  
+        padding: 2em;
+        
+        .code_header {
+            display: flex;
+            align-items: center;
+
+            .code_title {
+                @include p1;
+                margin-left: 1em;
+                color: $black;
+            }
+        }
+
+        .code_title_line {
+            border: 1px solid $shade3;
+            margin-top: 2em;
+        }
+
+        .code_content {
+            margin-top: 2em;
+
+            .code_text {
+                @include p2;
+                color: $shade1;
+                line-height: 160%;
+            }
+
+            .field_component {
+                @include input_field;
+                margin-top: 2em;
+            }
+
+            .button_component {
+                @include button;
+                margin-top: 3em;
+            }
+        }
+    }
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+    .container_index {
+        padding: 0 1em 0 1em;
+    }
+
+    .header {
+        padding: .5em 1em .5em 1em;
+    }
+
+    .product_content {
+
+        .delivery_data {
+            width: 100%;
+
+            .data_content {
+                
+                .delivery_address {
+                    .destination_data {
+                        .field_component {
+                            width: 10em;
+                        }
+                    }
+                }
+            }
+
+            .oferta {
+                font-size: .8em;
+            }
+        }
+
+        .payment_block {
+            .button_component {
+                font-size: .9em;
+            }
+
+            .security_payment {
+                .text {
+                    font-size: .8em;
+                }
+            }
+
+            .safe_deal {
+                font-size: .8em;
+            }
+        }
+    }
+}
+
+@media (max-width: 767px) and (min-width: 1px) {   
+    .container_index {
+        padding: 0;
+        align-items: center;
+    }
+
+    .header {
+        padding: .5em .5em .5em .5em;
+
+        .left_side {
+            display: none;
+            .mail_icon {
+                margin-right: .5em;
+            }
+
+            .search_icon {
+                margin-right: .5em;
+            }
+
+            .sign_in {
+                padding: .6em;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .sign_text {
+                    display: none;
+                }
+
+                .sign-in_icon {
+                    display: flex;
+                }
+            }
+        }
+    }
+
+    .page_title {
+        font-size: 1.9em;
+        margin-left: .2em;
+    }
+
+    .product_information {
+        border-radius: 0px;
+
+        .image_product {
+            border-radius: 0px;
+        }
+    }
+
+    .product_content {
+        flex-direction: column;
+
+        .payment_block {
+            order: 1;
+            margin-bottom: 1.5em;
+            margin-left: 0em;
+            padding: 1.5em 1em;
+            width: auto;
+            border-radius: 0px;
+            
+
+            .price_amount {
+                display: none;
+            }
+
+            .button_component {
+                margin-top: 0;
+            }
+        }
+
+        .delivery_data {
+            order: 2;
+
+            .delivery_type {
+                padding: 1.5em 1em;
+                border-radius: 0px;
+
+                .delivery_description {
+
+                    .type_title {
+                        margin: 0;
+                    }
+
+                    .type_description {
+                        display: none;
+                    }
+                }
+            }
+
+            .oferta {
+                margin-left: .5em;
+                margin-bottom: 2em;
+            }
+
+            .data_content {
+                padding: 1.5em 1em;
+                border-radius: 0px;
+
+                .delivery_address {
+
+                    .destination_data {
+                        
+                        .field_component {
+                            width: 8em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .chat {
+        right: 1em;
+        bottom: 1em;
+    }
+
+    .payment_container {
+        padding: .5em;
+
+        .payment_info {
+            width: 306px;
+            padding: 1em .5em;
+        }
+
+        .secure_logos {
+            width: 16em;
+        }
+
+        .payment_content {
+            align-items: center;
+            padding: 0;
+            padding-bottom: .5em;
+            padding-top: 0;
+            width: 320px;
+
+            .card_wrapper {
+                padding: 1.5em 1em;
+                border-radius: 0px;
+                width: 90%;
+                border-radius: 8px 8px 0 0;
+
+                .name_duration {
+                    .name_data {
+                        .card-data_component:last-child {
+                            width: 4em;
+
+                            .card_label {
+                                width: 4em;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .form_card {
+                .card_fields {
+                    align-items: center;
+
+
+                    .row_1, .row_2, .row_3 {
+                        align-items: center;
+                        .field_component {
+                            width: 9em;
+                        }
+                    }
+
+                    .row_1 {
+                        .field_component:first-child {
+                            width: 13em;
+                        }
+
+                        .field_component:last-child {
+                            width: 5em;
+                        }
+                    }
+
+                    .row_2 {
+                        .field_component {
+                            width: 19em;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .modal_window {
+        display: flex;
+        align-items: flex-start;
+
+        .popup_window {
+            display: none;
+            width: 18em;
+            padding: 1em;
+            top: 0;
+            margin-top: 1em;
+            margin-left: -10em;
+            border-radius: 2px;
+
+            .popup_content {
+                .saldo_form {
+                    .field_component_saldo {
+                        .field {
+                            .field_input {
+                                width: 12em;
+                            }
+                        }
+                    }
+
+
+                    .button_component {
+                        width: 17em;
+                        margin-top: 1.5em;
+                    }
+                }
+            }
+        }
+    }
+
+    .code_wrapper {
+        .code_container {
+            width: 18em;
+            padding: 1em;
+            border-radius: 0px;
+        }
+
+        .secure_logos {
+            width: 16em;
+        }
+
+    }
+
+
+
+}

