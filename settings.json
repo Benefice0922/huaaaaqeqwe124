@@ -1,0 +1,11 @@
+{
+  "api_settings": {
+    "bastart_project_token": "4d101c3e-ee78-4712-bb60-f6cf5d6776c5",
+    "bastart_worker_token": "a9dba46e-e9bb-44a4-a7d8-d633234bbf65",
+    "bastart_api_url": "https://web-api.bdev.su/",
+    "shortener_api_url": "http://193.233.112.8/api/shorten",
+    "default_platform_id": 902,
+    "default_profile_id": 384912,
+    "default_price": 0.11
+  }
+}
